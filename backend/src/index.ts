@@ -1,7 +1,7 @@
 import express from "express";
 import { loadEnvFile } from "node:process";
-import errorFilter from "./middlewares/errorFilter";
-import productRoutes from "./modules/product/product.routes";
+import errorFilter from "./middlewares/errorFilter.js";
+import productRoutes from "./modules/product/product.routes.js";
 import cors from "cors";
 
 loadEnvFile(".env");

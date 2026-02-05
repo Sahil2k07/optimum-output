@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import AppError from "../errors/abstract";
+import AppError from "../errors/abstract.js";
 
 function errorFilter(
   err: Error,

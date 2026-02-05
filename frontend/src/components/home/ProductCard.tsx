@@ -92,7 +92,7 @@ function ProductCard({ product }: { product: Product }) {
               product.stock === 0
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : cartContext?.isItemAlreadyAdded(product.id)
-                  ? "text-green-500 bg-gray-300 cursor-not-allowed"
+                  ? "text-gray-600 bg-gray-300 cursor-not-allowed"
                   : "bg-gray-900 text-white hover:bg-gray-800"
             }`}
           >
