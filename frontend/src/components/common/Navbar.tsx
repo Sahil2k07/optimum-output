@@ -1,8 +1,10 @@
+import { CartContext } from "@/context/CartContext";
 import { ShoppingCart } from "lucide-react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 function Navbar() {
-  const cartCount = 3;
+  const cartCount = useContext(CartContext)?.items.length || 0;
 
   return (
     <nav className="bg-gray-900 border-b border-gray-200 sticky top-0 z-50">

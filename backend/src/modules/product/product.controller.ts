@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import productService, { ProductService } from "./product.service";
-import { getProductSchema } from "../../views/product";
+import productService, { ProductService } from "./product.service.js";
+import { getProductSchema } from "../../views/product.js";
 
 class ProductController {
   private readonly service: ProductService;
