@@ -43,7 +43,7 @@ function Cart() {
             items={items}
           />
 
-          <CartSummary cartItems={items} />
+          <CartSummary cartItems={items} clearCart={clearCart} />
         </div>
       </div>
     </div>

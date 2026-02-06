@@ -1,6 +1,17 @@
+import axiosInstance from "@/lib/axios";
 import type { CartItem } from "@/types/order";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { Spinner } from "../ui/spinner";
 
-function CartSummary({ cartItems }: { cartItems: CartItem[] }) {
+type Props = {
+  cartItems: CartItem[];
+  clearCart: () => void;
+};
+
+function CartSummary({ cartItems, clearCart }: Props) {
+  const navigate = useNavigate();
+
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -9,6 +20,23 @@ function CartSummary({ cartItems }: { cartItems: CartItem[] }) {
 
   const deliveryCharges = subtotal >= 500 || subtotal === 0 ? 0 : 150;
   const total = subtotal + deliveryCharges;
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      if (!localStorage.getItem("API_TOKEN")) {
+        navigate("/signin");
+        return;
+      }
+
+      const response = await axiosInstance.post("/api/order", cartItems);
+
+      clearCart();
+
+      navigate("/order");
+
+      return response.data;
+    },
+  });
 
   return (
     <div className="lg:col-span-1">
@@ -32,7 +60,7 @@ function CartSummary({ cartItems }: { cartItems: CartItem[] }) {
           </div>
           {subtotal < 500 && (
             <p className="text-xs text-gray-500">
-              Add ${(500 - subtotal).toFixed(2)} more for free delivery
+              Add र {(500 - subtotal).toFixed(2)} more for free delivery
             </p>
           )}
           <div className="border-t border-gray-200 pt-4">
@@ -45,8 +73,12 @@ function CartSummary({ cartItems }: { cartItems: CartItem[] }) {
           </div>
         </div>
 
-        <button className="w-full bg-gray-900 text-white py-3 rounded-md font-medium hover:bg-gray-800 transition-colors">
-          Place Order
+        <button
+          onClick={() => mutation.mutate()}
+          disabled={mutation.isPending}
+          className={`w-full py-3 rounded-md font-medium transition-colors flex items-center justify-center ${mutation.isPending ? "bg-gray-400 text-gray-900 cursor-not-allowed" : "bg-gray-900 text-white hover:bg-gray-800 cursor-pointer"}`}
+        >
+          {mutation.isPending ? <Spinner /> : "Place Order"}
         </button>
       </div>
     </div>

@@ -1,9 +1,32 @@
+import axiosInstance from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 import { ShoppingBag } from "lucide-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
-  const handleGuestLogin = () => {
-    console.log("Continuing as guest");
-  };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("API_TOKEN")) {
+      navigate("/order");
+      return;
+    }
+  }, []);
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post("/api/auth/signin");
+
+      const token = response.data?.token;
+
+      if (token) {
+        localStorage.setItem("API_TOKEN", token);
+      }
+
+      navigate("/");
+    },
+  });
 
   return (
     <div className="min-h-screen -mt-20 bg-gray-50 flex items-center justify-center px-4">
@@ -17,7 +40,7 @@ function SignIn() {
 
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              Welcome to ShopHub
+              Welcome to GoKart
             </h1>
             <p className="text-sm text-gray-600">
               Try the App with minimal Auth
@@ -25,7 +48,7 @@ function SignIn() {
           </div>
 
           <button
-            onClick={handleGuestLogin}
+            onClick={() => mutation.mutate()}
             className="w-full bg-gray-900 text-white py-3 px-4 rounded-md font-medium hover:bg-gray-800 transition-colors mb-6"
           >
             Continue as Guest

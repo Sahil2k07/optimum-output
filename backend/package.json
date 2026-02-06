@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/src/index.js",
-    "dev": "NODE_ENV=development nodemon",
+    "dev": "NODE_ENV=development tsx watch src/index.ts",
     "build": "npx tsc -b",
     "seed": "npm run build && node dist/src/scripts/seed.js"
   },
@@ -18,9 +18,9 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.2.1",
-    "nodemon": "^3.1.11",
     "prisma": "^7.3.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {

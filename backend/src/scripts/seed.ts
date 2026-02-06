@@ -188,6 +188,10 @@ async function initData() {
 
     console.log(`Product with id ${p.id} added`);
   }
+
+  await prisma.orderItem.deleteMany({ where: {} });
+
+  await prisma.order.deleteMany({ where: {} });
 }
 
 initData()
