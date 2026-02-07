@@ -12,3 +12,21 @@ export type CartContextType = {
   clearCart: () => void;
   isItemAlreadyAdded: (id: number) => boolean;
 };
+
+type OrderItems = {
+  id: number;
+  orderId: number;
+  quantity: number;
+  productId: number;
+  price: string; // price at the time of order
+  product: Product;
+};
+
+export type UserOrderResponse = {
+  id: number;
+  userId: number;
+  total: number;
+  createdAt: Date;
+  updatedAt: Date;
+  orderItems: OrderItems[];
+};

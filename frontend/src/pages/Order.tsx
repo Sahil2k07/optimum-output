@@ -1,37 +1,17 @@
 import { EmptyState } from "@/components/common/EmptyState";
-import { ErrorState } from "@/components/common/ErrorState.";
+import { ErrorState } from "@/components/common/ErrorState";
 import SpinnerEmpty from "@/components/common/Spinner";
 import axiosInstance from "@/lib/axios";
+import type { UserOrderResponse } from "@/types/order";
 import { useQuery } from "@tanstack/react-query";
 import { Package, Calendar, IndianRupee } from "lucide-react";
-
-type UserOrderResponse = {
-  id: number;
-  userId: number;
-  total: number;
-  createdAt: Date;
-  updatedAt: Date;
-  orderItems: {
-    id: number;
-    orderId: number;
-    quantity: number;
-    productId: number;
-    price: string; // price at the time of order
-    product: {
-      id: number;
-      title: string;
-      descripton: number;
-      price: string; // current price of the same thing
-      image: string;
-    };
-  }[];
-};
 
 function Order() {
   const { isLoading, error, data } = useQuery<UserOrderResponse[]>({
     queryKey: ["orders"],
     queryFn: async () => {
-      const response = await axiosInstance<UserOrderResponse[]>("/api/order");
+      const response =
+        await axiosInstance.get<UserOrderResponse[]>("/api/order");
 
       return response.data;
     },

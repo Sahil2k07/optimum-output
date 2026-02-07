@@ -2,7 +2,8 @@
 CREATE TABLE "User" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "email" TEXT NOT NULL,
-    "name" TEXT NOT NULL
+    "name" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'CUSTOMER'
 );
 
 -- CreateTable
@@ -11,7 +12,11 @@ CREATE TABLE "Product" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "price" DECIMAL NOT NULL,
-    "image" TEXT NOT NULL
+    "image" TEXT NOT NULL,
+    "createdById" INTEGER NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Product_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable

@@ -1,32 +1,47 @@
 import type { NextFunction, Request, Response } from "express";
+import Roles from "../consts/role.js";
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  let token = req.headers.authorization;
+  try {
+    let token = req.headers.authorization;
 
-  if (!token || !token.includes("Bearer ")) {
-    res.status(401).json({ success: false, message: "Invalid token" });
-    return;
+    if (!token || !token.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid token",
+      });
+    }
+
+    token = token.replace("Bearer ", "");
+
+    const allowedTokens = ["customer-user-token", "wholeseller-user-token"];
+
+    if (!allowedTokens.includes(token)) {
+      return res.status(401).json({
+        success: false,
+        message: "The token is not issued by GoKart",
+      });
+    }
+
+    req.user =
+      token === "wholeseller-user-token"
+        ? {
+            id: 2,
+            email: "wholeseller.user@gmail.com",
+            name: "Wholeseller User",
+            role: Roles.WHOLESELLER,
+          }
+        : {
+            id: 1,
+            email: "customer.user@gmail.com",
+            name: "Customer User",
+            role: Roles.CUSTOMER,
+          };
+
+    next();
+  } catch (error) {
+    next(error);
   }
-
-  token = token.replace("Bearer ", "");
-
-  // Will intergrate real jwt later for authenticatin; since right now we support only guest user this is fine
-  if (token !== "guest-user-token") {
-    res
-      .status(401)
-      .json({ success: false, message: "Only guest user supported for now" });
-
-    return;
-  }
-
-  // simulation a user here; we ideally make a db call here or extract payload from jwt;
-  req.user = {
-    id: 1,
-    email: "guest.user@gmail.com",
-    name: "Guest User",
-  };
-
-  next();
 };
 
 export default authMiddleware;

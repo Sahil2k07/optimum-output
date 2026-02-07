@@ -8,7 +8,7 @@ export function EmptyState({
   description = "There are no items to display at the moment.",
 }: EmptyStateProps) {
   return (
-    <div className="min-h-100 bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-100 bg-white flex items-center justify-center px-4">
       <div className="text-center space-y-3">
         <div className="flex justify-center mb-4">
           <svg

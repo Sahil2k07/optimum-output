@@ -1,4 +1,5 @@
 import type { Request } from "express";
+import Roles from "./consts/role.ts";
 
 declare global {
   namespace Express {
@@ -7,6 +8,7 @@ declare global {
         email: string;
         id: number;
         name: string;
+        role: Roles;
       };
     }
   }

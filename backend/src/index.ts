@@ -4,6 +4,7 @@ import errorFilter from "./middlewares/errorFilter.js";
 import productRoutes from "./modules/product/product.routes.js";
 import cors from "cors";
 import orderRoutes from "./modules/order/order.routes.js";
+import authRoutes from "./modules/auth/auth.routes.js";
 
 loadEnvFile(".env");
 
@@ -22,10 +23,7 @@ server.use(
   }),
 );
 
-server.post("/api/auth/signin", async (req, res) => {
-  res.status(200).json({ token: "guest-user-token" });
-});
-
+server.use("/api/auth", authRoutes);
 server.use("/api/product", productRoutes);
 server.use("/api/order", orderRoutes);
 

@@ -1,9 +1,15 @@
 import { prisma } from "../config/prisma.js";
 
-const guestUser = {
+const customerUser = {
   id: 1,
-  email: "guest.user@gmail.com",
-  name: "Guest User",
+  email: "customer.user@gmail.com",
+  name: "Customer User",
+};
+
+const wholesellerUser = {
+  id: 2,
+  email: "wholeseller.user@gmail.com",
+  name: "Wholeseller User",
 };
 
 const products = [
@@ -150,15 +156,27 @@ const products = [
 
 async function initData() {
   await prisma.user.upsert({
-    where: { id: guestUser.id },
+    where: { id: customerUser.id },
     update: {},
     create: {
-      email: guestUser.email,
-      name: guestUser.name,
+      email: customerUser.email,
+      name: customerUser.name,
     },
   });
 
-  console.log("Guest user added");
+  console.log("Customer user added");
+
+  await prisma.user.upsert({
+    where: { id: wholesellerUser.id },
+    update: {},
+    create: {
+      email: wholesellerUser.email,
+      name: wholesellerUser.name,
+      role: "WHOLESELLER",
+    },
+  });
+
+  console.log("Wholeseller user added");
 
   for (const p of products) {
     await prisma.product.upsert({
@@ -178,6 +196,7 @@ async function initData() {
         description: p.description,
         image: p.image,
         price: p.price,
+        createdById: 2,
         stock: {
           create: {
             quantity: p.quantity,
