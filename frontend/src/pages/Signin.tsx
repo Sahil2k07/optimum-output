@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ShoppingBag } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -20,13 +21,17 @@ function SignIn() {
         userType,
       });
 
-      const token = response.data?.token;
-
-      if (token) {
-        localStorage.setItem("API_TOKEN", token);
-
-        navigate("/");
+      return response.data;
+    },
+    onSuccess: (data) => {
+      if (data?.token) {
+        localStorage.setItem("API_TOKEN", data.token);
       }
+      navigate("/");
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(error?.message || "Something went wrong");
     },
   });
 

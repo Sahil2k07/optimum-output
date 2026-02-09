@@ -3,6 +3,8 @@ import type { CartItem } from "@/types/order";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "../ui/spinner";
+import useAuth from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 type Props = {
   cartItems: CartItem[];
@@ -21,20 +23,27 @@ function CartSummary({ cartItems, clearCart }: Props) {
   const deliveryCharges = subtotal >= 500 || subtotal === 0 ? 0 : 150;
   const total = subtotal + deliveryCharges;
 
+  const { user } = useAuth();
+
   const mutation = useMutation({
     mutationFn: async () => {
-      if (!localStorage.getItem("API_TOKEN")) {
+      if (!user) {
         navigate("/signin");
         return;
       }
 
       const response = await axiosInstance.post("/api/order", cartItems);
 
+      return response.data;
+    },
+    onSuccess: () => {
       clearCart();
 
       navigate("/order");
-
-      return response.data;
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(error?.message || "Something went wrong");
     },
   });
 
