@@ -142,9 +142,17 @@ export class ProductService {
     if (user.role !== Roles.ADMIN && product.createdById !== user.id)
       throw new BadRequestError("the product is not created by the user");
 
-    await prisma.stock.delete({ where: { productId: id } });
-
-    await prisma.product.delete({ where: { id } });
+    await prisma.$transaction([
+      prisma.orderItem.deleteMany({
+        where: { productId: id },
+      }),
+      prisma.stock.deleteMany({
+        where: { productId: id },
+      }),
+      prisma.product.delete({
+        where: { id },
+      }),
+    ]);
   };
 }
 

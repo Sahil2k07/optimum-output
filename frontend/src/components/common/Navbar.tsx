@@ -41,7 +41,7 @@ function Navbar() {
                   className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span className="hidden sm:inline">Products</span>
+                  <span className="hidden sm:inline">Manage Products</span>
                 </Link>
 
                 <Link
