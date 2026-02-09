@@ -191,6 +191,8 @@ managing products, tracking stock, and creating customer orders.
    ```bash
    npm install
 
+   touch .env
+
    npx prisma migrate deploy
 
    npx prisma generate
@@ -199,3 +201,7 @@ managing products, tracking stock, and creating customer orders.
 
    npm start
    ```
+
+   > **Note (Windows Users):**
+   > If you are using Windows, please manually create an empty `.env` file inside the `backend` directory before starting the server.  
+   > This file is required for the backend to start correctly, even if no environment variables are added.
