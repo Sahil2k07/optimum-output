@@ -1,5 +1,7 @@
+import ProductList from "@/components/product/ProductList";
+
 function Product() {
-  return <section>products page</section>;
+  return <ProductList isManaged={true} apiUrl="/api/product/managed" />;
 }
 
 export default Product;

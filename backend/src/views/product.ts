@@ -21,3 +21,24 @@ export const getProductSchema = z.object({
 });
 
 export type GetProductView = z.infer<typeof getProductSchema>;
+
+export const addProductSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  image: z.string().optional(),
+  price: z.float32(),
+  stock: z.int32(),
+});
+
+export type AddProductView = z.infer<typeof addProductSchema>;
+
+export const updateProductSchema = z.object({
+  id: z.int32(),
+  title: z.string(),
+  description: z.string(),
+  image: z.string().optional(),
+  price: z.float32(),
+  stock: z.int32(),
+});
+
+export type UpdateProductView = z.infer<typeof updateProductSchema>;

@@ -17,3 +17,12 @@ export type ListProductResponse = {
   total: number;
   products: Product[];
 };
+
+export type ManageProductRequest = {
+  id?: number;
+  title: string;
+  description: string;
+  price: number;
+  image?: string;
+  stock: number;
+};

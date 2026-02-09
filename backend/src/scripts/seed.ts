@@ -1,17 +1,5 @@
 import { prisma } from "../config/prisma.js";
 
-const customerUser = {
-  id: 1,
-  email: "customer.user@gmail.com",
-  name: "Customer User",
-};
-
-const wholesellerUser = {
-  id: 2,
-  email: "wholeseller.user@gmail.com",
-  name: "Wholeseller User",
-};
-
 const products = [
   {
     id: 1,
@@ -156,27 +144,39 @@ const products = [
 
 async function initData() {
   await prisma.user.upsert({
-    where: { id: customerUser.id },
+    where: { id: 1 },
     update: {},
     create: {
-      email: customerUser.email,
-      name: customerUser.name,
+      email: "customer.user@gmail.com",
+      name: "Customer User",
     },
   });
 
   console.log("Customer user added");
 
   await prisma.user.upsert({
-    where: { id: wholesellerUser.id },
+    where: { id: 2 },
     update: {},
     create: {
-      email: wholesellerUser.email,
-      name: wholesellerUser.name,
+      email: "wholeseller.user@gmail.com",
+      name: "Wholeseller User",
       role: "WHOLESELLER",
     },
   });
 
   console.log("Wholeseller user added");
+
+  await prisma.user.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      email: "admin.user@gmail.com",
+      name: "Admin User",
+      role: "ADMIN",
+    },
+  });
+
+  console.log("Admin user added");
 
   for (const p of products) {
     await prisma.product.upsert({
@@ -196,7 +196,7 @@ async function initData() {
         description: p.description,
         image: p.image,
         price: p.price,
-        createdById: 2,
+        createdById: 3,
         stock: {
           create: {
             quantity: p.quantity,

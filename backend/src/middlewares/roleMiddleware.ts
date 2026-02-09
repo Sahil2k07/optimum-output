@@ -9,6 +9,10 @@ function roleMiddleware(...roles: Roles[]) {
 
       if (!user) throw new UnauthorizedError("token not found");
 
+      if (user.role === Roles.ADMIN) {
+        return next();
+      }
+
       if (!roles.includes(user.role)) {
         throw new ForbiddenError(
           "user is not authorized to access this feature",

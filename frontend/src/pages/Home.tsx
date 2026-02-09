@@ -1,9 +1,9 @@
-import ProductList from "@/components/home/ProductList";
+import ProductList from "@/components/product/ProductList";
 
 function Home() {
   return (
     <>
-      <ProductList />
+      <ProductList isManaged={false} apiUrl="/api/product" />
     </>
   );
 }
