@@ -90,57 +90,49 @@ managing products, tracking stock, and creating customer orders.
 
 ### User
 
-| Field    | Type      | Description                              |
-| -------- | --------- | ---------------------------------------- |
-| id       | Int       | Primary key                              |
-| email    | String    | Unique user email                        |
-| name     | String    | User name                                |
-| role     | Role      | User role (CUSTOMER, WHOLESELLER, ADMIN) |
-| orders   | Order[]   | Orders placed by the user                |
-| products | Product[] | Products created by the user             |
+| Field | Type   | Description                              |
+| ----- | ------ | ---------------------------------------- |
+| id    | Int    | Primary key                              |
+| email | String | Unique user email                        |
+| name  | String | User name                                |
+| role  | Role   | User role (CUSTOMER, WHOLESELLER, ADMIN) |
 
 ---
 
 ### Product
 
-| Field       | Type        | Description                          |
-| ----------- | ----------- | ------------------------------------ |
-| id          | Int         | Primary key                          |
-| title       | String      | Product title                        |
-| description | String      | Product description                  |
-| price       | Decimal     | Product price                        |
-| image       | String      | Product image URL                    |
-| stock       | Stock?      | One-to-one stock record              |
-| orderItems  | OrderItem[] | Order items referencing this product |
-| createdBy   | User        | User who created the product         |
-| createdById | Int         | Creator user ID                      |
-| createdAt   | DateTime    | Creation timestamp                   |
-| updatedAt   | DateTime    | Last update timestamp                |
+| Field       | Type     | Description           |
+| ----------- | -------- | --------------------- |
+| id          | Int      | Primary key           |
+| title       | String   | Product title         |
+| description | String   | Product description   |
+| price       | Decimal  | Product price         |
+| image       | String   | Product image URL     |
+| createdById | Int      | Creator user ID       |
+| createdAt   | DateTime | Creation timestamp    |
+| updatedAt   | DateTime | Last update timestamp |
 
 ---
 
 ### Stock
 
-| Field     | Type    | Description              |
-| --------- | ------- | ------------------------ |
-| id        | Int     | Primary key              |
-| quantity  | Int     | Available stock quantity |
-| product   | Product | Associated product       |
-| productId | Int     | Unique product ID        |
+| Field     | Type | Description              |
+| --------- | ---- | ------------------------ |
+| id        | Int  | Primary key              |
+| quantity  | Int  | Available stock quantity |
+| productId | Int  | Associated product       |
 
 ---
 
 ### Order
 
-| Field      | Type        | Description                 |
-| ---------- | ----------- | --------------------------- |
-| id         | Int         | Primary key                 |
-| user       | User        | User who placed the order   |
-| userId     | Int         | User ID                     |
-| total      | Decimal     | Total order amount          |
-| createdAt  | DateTime    | Creation timestamp          |
-| updatedAt  | DateTime    | Last update timestamp       |
-| orderItems | OrderItem[] | Items included in the order |
+| Field     | Type     | Description               |
+| --------- | -------- | ------------------------- |
+| id        | Int      | Primary key               |
+| userId    | Int      | User who placed the order |
+| total     | Decimal  | Total order amount        |
+| createdAt | DateTime | Creation timestamp        |
+| updatedAt | DateTime | Last update timestamp     |
 
 ---
 
@@ -149,11 +141,9 @@ managing products, tracking stock, and creating customer orders.
 | Field     | Type    | Description                    |
 | --------- | ------- | ------------------------------ |
 | id        | Int     | Primary key                    |
-| order     | Order   | Parent order                   |
 | orderId   | Int     | Order ID                       |
-| product   | Product | Associated product             |
-| productId | Int     | Product ID                     |
-| quantity  | Int     | Quantity ordered               |
+| productId | Int     | Associated product             |
+| quantity  | Int     | Quantity                       |
 | price     | Decimal | Product price at time of order |
 
 ---
