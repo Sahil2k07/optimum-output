@@ -9,6 +9,7 @@ import Protected from "./components/common/Protected";
 import Order from "./pages/Order";
 import CartProvider from "./context/CartContext";
 import Product from "./pages/Product";
+import AllProducts from "./pages/AllProducts";
 
 function Layout() {
   return (
@@ -42,6 +43,14 @@ const router = createBrowserRouter([
         ),
       },
       { path: "/signin", element: <SignIn /> },
+      {
+        path: "/all-products",
+        element: (
+          <Protected>
+            <AllProducts />
+          </Protected>
+        ),
+      },
     ],
   },
 ]);

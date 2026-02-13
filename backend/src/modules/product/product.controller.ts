@@ -41,6 +41,25 @@ class ProductController {
     }
   };
 
+  getAllManagedProducts = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const schema = getProductSchema.parse(req.query);
+
+      const response = await this.service.getAllManagedProducts(
+        schema,
+        req.user,
+      );
+
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   addProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const schema = addProductSchema.parse(req.body);

@@ -14,7 +14,11 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
     token = token.replace("Bearer ", "");
 
-    const allowedTokens = ["customer-user-token", "wholeseller-user-token"];
+    const allowedTokens = [
+      "customer-user-token",
+      "wholeseller-user-token",
+      "admin-user-token",
+    ];
 
     if (!allowedTokens.includes(token)) {
       return res.status(401).json({
@@ -23,20 +27,30 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
       });
     }
 
-    req.user =
-      token === "wholeseller-user-token"
-        ? {
-            id: 2,
-            email: "wholeseller.user@gmail.com",
-            name: "Wholeseller User",
-            role: Roles.WHOLESELLER,
-          }
-        : {
-            id: 1,
-            email: "customer.user@gmail.com",
-            name: "Customer User",
-            role: Roles.CUSTOMER,
-          };
+    let user = {
+      id: 1,
+      email: "customer.user@gmail.com",
+      name: "Customer User",
+      role: Roles.CUSTOMER,
+    };
+
+    if (token === "wholeseller-user-token") {
+      user = {
+        id: 2,
+        email: "wholeseller.user@gmail.com",
+        name: "Wholeseller User",
+        role: Roles.WHOLESELLER,
+      };
+    } else if (token === "admin-user-token") {
+      user = {
+        id: 3,
+        email: "admin.user@gmail.com",
+        name: "Admin User",
+        role: Roles.ADMIN,
+      };
+    }
+
+    req.user = user;
 
     next();
   } catch (error) {

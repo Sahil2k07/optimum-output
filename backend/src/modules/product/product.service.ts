@@ -81,6 +81,39 @@ export class ProductService {
     return { total: productCount, products: productsWithNumbers };
   };
 
+  getAllManagedProducts = async (
+    { skip, take, filter }: GetProductView,
+    user: User,
+  ) => {
+    let where: Prisma.ProductWhereInput = {};
+
+    if (filter) {
+      where.OR = [
+        { title: { contains: filter } },
+        { description: { contains: filter } },
+      ];
+    }
+
+    const productCount = await prisma.product.count({ where });
+
+    const products = await prisma.product.findMany({
+      skip,
+      take,
+      where,
+      include: {
+        stock: true,
+      },
+    });
+
+    const productsWithNumbers = products.map((p) => ({
+      ...p,
+      price: p.price.toNumber(),
+      stock: p.stock?.quantity,
+    }));
+
+    return { total: productCount, products: productsWithNumbers };
+  };
+
   addProduct = async (view: AddProductView, user: User) => {
     const response = await prisma.product.create({
       data: {

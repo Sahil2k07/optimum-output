@@ -15,6 +15,13 @@ productRoutes.get(
   productController.getManagedProducts,
 );
 
+productRoutes.get(
+  "/managed/admin",
+  authMiddleware,
+  roleMiddleware(Roles.ADMIN),
+  productController.getAllManagedProducts,
+);
+
 productRoutes.post(
   "/",
   authMiddleware,

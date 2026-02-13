@@ -1,9 +1,12 @@
 export class AuthService {
   async signIn(userType: string) {
-    const token =
-      userType === "wholeseller"
-        ? "wholeseller-user-token"
-        : "customer-user-token";
+    let token = "customer-user-token";
+
+    if (userType === "admin") {
+      token = "admin-user-token";
+    } else if (userType === "wholeseller") {
+      token = "wholeseller-user-token";
+    }
 
     return { token };
   }

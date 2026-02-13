@@ -45,6 +45,15 @@ function Navbar() {
                 </Link>
 
                 <Link
+                  to="/all-products"
+                  hidden={!hasAccess(Permissions.MANAGE_ALL_PRODUCTS)}
+                  className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span className="hidden sm:inline">All Products</span>
+                </Link>
+
+                <Link
                   to="/order"
                   className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
                 >

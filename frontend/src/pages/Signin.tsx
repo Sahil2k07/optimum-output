@@ -68,6 +68,13 @@ function SignIn() {
             Continue as Wholeseller
           </button>
 
+          <button
+            onClick={() => mutation.mutate("admin")}
+            className="w-full bg-gray-900 text-white py-3 px-4 rounded-md font-medium hover:bg-gray-800 transition-colors mb-6 cursor-pointer"
+          >
+            Continue as Admin
+          </button>
+
           <div className="bg-blue-50 border border-blue-200 rounded-md p-3">
             <p className="text-sm text-blue-800">
               <span className="font-semibold">Note:</span> This project
